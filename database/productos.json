@@ -1,0 +1,27 @@
+[
+    {
+        "id": "84b7e9c5-0088-4ecf-8dfd-642a4b7e127e",
+        "title": "leche marca Pinito",
+        "description": "leche en polvo",
+        "code": "abc124",
+        "price": 17,
+        "status": false,
+        "stock": 140,
+        "category": "alimentos"
+    },
+    {
+        "id": "f673818d-73c1-4715-9eea-242c1283e774",
+        "title": "Arroz en leche",
+        "description": "arroz tostado",
+        "code": "abc123",
+        "price": 15,
+        "status": false,
+        "stock": 130,
+        "category": "alimentos",
+        "thumbnails": [
+            "url1",
+            "url2",
+            "url3"
+        ]
+    }
+]

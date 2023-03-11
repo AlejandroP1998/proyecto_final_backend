@@ -87,10 +87,11 @@ export class ProductManager {
 
     async getProductById(id) {
         await this.#cargar()
-        try {
+        const idFinded = this.#products.find((prod) => prod.id === id)
+        if(idFinded) {
             const product = this.#products.find((prod) => prod.id === id)
             return product
-        } catch (error) {
+        } else {
             return null
         }
 

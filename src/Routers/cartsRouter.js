@@ -29,6 +29,10 @@ cartsRouter.get('/:cid', async (req, res) => {
 /* Metodo para agregar productos a un carrito especifico */
 cartsRouter.post('/:cid/products/:pid', async (req, res) => {
   const product = await productsManager.getProductById(req.params.pid)
-  const cart = await cartsManager.pushProduct(req.params.cid, product.id)
-  res.json(cart)
+  if(product){
+    const cart = await cartsManager.pushProduct(req.params.cid, product.id)
+    res.json(cart)
+  }else{
+    res.json({"message":"No existe el producto en la base de datos"})
+  }
 })

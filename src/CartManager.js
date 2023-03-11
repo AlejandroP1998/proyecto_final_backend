@@ -8,6 +8,8 @@ export class Cart {
   constructor({ id, products }) {
     const map = new Map([[id], [products]])
     if (map.has("") || map.has(0) || map.has(undefined)) {
+      this.id = randomUUID()
+      this.products = []
     } else {
       this.id = id
       this.products = products

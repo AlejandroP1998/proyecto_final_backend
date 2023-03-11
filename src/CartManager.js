@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
 
 //Con esta variable valido que el archivo no se cargue con cada llamada al metodo que lo carga
@@ -6,8 +7,7 @@ let loadSuccess = true
 export class Cart {
   constructor({ id, products }) {
     const map = new Map([[id], [products]])
-    if (map.has("") || map.has(0)) {
-      throw ("No llenaste un campo obligatorio, creación de producto fallida");
+    if (map.has("") || map.has(0) || map.has(undefined)) {
     } else {
       this.id = id
       this.products = products
@@ -54,30 +54,33 @@ export class CartManager {
 
   async getProductsInCart(id) {
     await this.#cargar()
-    const cart = this.#carts.find((cart) => cart.id = id)
-    return cart.products
+    const idFinded = this.#carts.some((cart) => cart.id === id)
+    if (idFinded) {
+      const i = this.#carts.findIndex((cart) => cart.id === id)
+      return this.#carts[i].products
+    }else return null
+
   }
 
-  async pushProduct(id, product) {
+  async pushProduct(id, productId) {
     await this.#cargar()
     let json = null
     const i = this.#carts.findIndex((cart) => cart.id === id)
-    let isInCart = this.#carts[i].products.some((prod) => prod.id === product.id)
+    let isInCart = this.#carts[i].products.some((prod) => prod.id === productId)
     if (isInCart) {
-      const j = this.#carts[i].products.findIndex((prod) => prod.id === product.id)
+      const j = this.#carts[i].products.findIndex((prod) => prod.id === productId)
       this.#carts[i].products[j].quantity += parseInt(1)
       json = JSON.stringify(this.#carts, null, 4)
       await fs.writeFile(this.#path, json)
-      return this.#carts[i].products[j]
+      return this.#carts[i].products
     } else {
-      product.quantity = 1
-      this.#carts[i].products.push(product)
+      this.#carts[i].products.push({ id: productId, quantity: 1 })
       json = JSON.stringify(this.#carts, null, 4)
       await fs.writeFile(this.#path, json)
       return this.#carts[i].products
     }
-    
-    
+
+
   }
 
 }
